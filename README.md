@@ -55,8 +55,8 @@ http://localhost:3000
 
 ## TO-DO
 
-- [] URL Shortening;
-- [] URL Redirection;
+- [] URL Shortening: Create an endpoint that allows and stores a shortened URL;
+- [] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
 - [] Link Analytics.
 
 ## References

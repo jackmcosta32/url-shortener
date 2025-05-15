@@ -3,11 +3,21 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm run --parallel --filter \"./apps/**\" dev",
+    "build": "pnpm run --recursive --filter \"./apps/**\" build",
+    "test": "pnpm run --recursive --filter \"./apps/**\" test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "pkgroll": "^2.12.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  }
 }
