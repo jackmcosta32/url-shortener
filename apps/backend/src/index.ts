@@ -1,18 +1,22 @@
-import express, { Router, type Request, type Response } from "express";
+import express from "express";
+import { env } from "@/config/env.config";
+import { configRoutes } from "@/config/routes.config";
+import { configDatabase } from "@/config/database.config";
 
-const app = express();
-const router = Router();
+const main = async () => {
+  const app = express();
 
-app.use(express.json());
+  app.use(express.json());
 
-router.get("/{*splat}", (req: Request, res: Response) => {
-  res.json({ message: "Hello from the server!" });
-});
+  configRoutes(app);
 
-app.use(router);
+  await configDatabase();
 
-const port = process.env.SERVER_PORT ?? 3000;
+  app.listen(env.APPLICATION_PORT, () => {
+    console.log(
+      `Server is running on http://localhost:${env.APPLICATION_PORT}`
+    );
+  });
+};
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+main();

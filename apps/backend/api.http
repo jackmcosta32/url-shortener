@@ -1,0 +1,18 @@
+### Variables
+@apiUrl = http://localhost:3000
+
+### Urls ###
+
+### POST Url
+POST {{apiUrl}}/url HTTP/1.1
+content-type: application/json
+
+{
+    "uri": "https://www.youtube.com/"
+}
+
+### GET All Urls
+GET {{apiUrl}}/url HTTP/1.1
+
+### GET Url By ID
+GET {{apiUrl}}/url/1 HTTP/1.1
