@@ -8,5 +8,7 @@ export default function (app: Application) {
   router.post("/", UrlControllers.create);
   router.get("/:id", UrlControllers.findById);
 
-  app.use("/url", router);
+  app.use("/api/url", router);
+
+  app.get("/url/:encodedUri", UrlControllers.redirectToDecodedUri);
 }

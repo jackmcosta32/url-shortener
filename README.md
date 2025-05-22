@@ -101,10 +101,18 @@ $$
 1 - \frac{56.8 - 1.825}{56.8} \approx 3.3 \%
 $$
 
+### Storing the URLs
+
+Considering the load of 1M writes per day and the number of 100M accesses, it is reasonable to expect the need for splitting our database into shards. Due to the simplicity of the data necessary to run this application using a NoSQL database might be a more straight trough solution.
+
+Due to the reasons previously presented, we will be using MongoDB for this application. With that in mind we can now design how we are going to present the URLs. A good option would be use auto incremented values encoded in base 62 and prefixed with identifiers that could allow us to know before hand in which database shard they are stored.
+
+## Searching for an Encoded URL
+
 ## TO-DO
 
-- [] URL Shortening: Create an endpoint that allows and stores a shortened URL;
-- [] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
+- [X] URL Shortening: Create an endpoint that stores a shortened URL;
+- [X] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
 - [] Link Analytics.
 
 ## References

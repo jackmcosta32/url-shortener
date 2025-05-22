@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { UrlModel } from "@/models/url.model";
 import { encodeBase62 } from "@/utils/encoding/encodeBase62";
 import * as CounterService from "@/services/counter.service";
-import { CreateUrlDto, FindUrlByIdDto } from "@/dtos/url.dto";
+import { CreateUrlDto, FindUrlByEncodedUriDto, FindUrlByIdDto } from "@/dtos/url.dto";
 
 export const index = () => {
   return UrlModel.find();
@@ -41,3 +41,9 @@ export const create = async (params: z.infer<typeof CreateUrlDto>) => {
 
   return urlDocument;
 };
+
+export const findByEncodedUri = (params: z.infer<typeof FindUrlByEncodedUriDto>) => {
+  const dto = FindUrlByEncodedUriDto.parse(params);
+ 
+  return UrlModel.findOne({ encodedUri: dto.encodedUri });
+}

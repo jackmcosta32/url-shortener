@@ -4,7 +4,7 @@
 ### Urls ###
 
 ### POST Url
-POST {{apiUrl}}/url HTTP/1.1
+POST {{apiUrl}}/api/url HTTP/1.1
 content-type: application/json
 
 {
@@ -12,7 +12,10 @@ content-type: application/json
 }
 
 ### GET All Urls
-GET {{apiUrl}}/url HTTP/1.1
+GET {{apiUrl}}/api/url HTTP/1.1
 
-### GET Url By ID
+### GET Url by ID
+GET {{apiUrl}}/api/url/1 HTTP/1.1
+
+### REDIRECT Url by Encoded URI
 GET {{apiUrl}}/url/1 HTTP/1.1

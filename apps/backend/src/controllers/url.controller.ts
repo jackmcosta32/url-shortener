@@ -22,9 +22,9 @@ export const findById = async (
   _next: NextFunction
 ) => {
   try {
-    const urlEntity = await UrlServices.findById({ id: req.params.id });
+    const urlDocument = await UrlServices.findById({ id: req.params.id });
 
-    res.status(HTTP_STATUS.OK).json(urlEntity);
+    res.status(HTTP_STATUS.OK).json(urlDocument);
   } catch (error) {
     res.status(HTTP_STATUS.NOT_FOUND).json(error);
   }
@@ -36,10 +36,30 @@ export const create = async (
   _next: NextFunction
 ) => {
   try {
-    const urlEntity = await UrlServices.create(req.body);
+    const urlDocument = await UrlServices.create(req.body);
 
-    res.status(HTTP_STATUS.CREATED).json(urlEntity);
+    res.status(HTTP_STATUS.CREATED).json(urlDocument);
   } catch (error) {
     res.status(HTTP_STATUS.BAD_REQUEST).json(error);
   }
 };
+
+export const redirectToDecodedUri = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {  
+  try {
+    const urlDocument = await UrlServices.findByEncodedUri({ encodedUri: req.params.encodedUri });
+
+    if (!urlDocument) {
+      res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Url not found" });
+      
+      return;
+    }
+
+    res.status(HTTP_STATUS.FOUND).redirect(urlDocument.uri);
+  } catch (error) {
+    res.status(HTTP_STATUS.NOT_FOUND).json(error);
+  }
+}
