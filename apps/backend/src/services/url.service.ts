@@ -1,5 +1,8 @@
 import { z } from "zod";
+import mongoose from "mongoose";
 import { UrlModel } from "@/models/url.model";
+import { encodeBase62 } from "@/utils/encoding/encodeBase62";
+import * as CounterService from "@/services/counter.service";
 import { CreateUrlDto, FindUrlByIdDto } from "@/dtos/url.dto";
 
 export const index = () => {
@@ -12,10 +15,29 @@ export const findById = (params: z.infer<typeof FindUrlByIdDto>) => {
   return UrlModel.findById(dto.id);
 };
 
-export const create = (params: z.infer<typeof CreateUrlDto>) => {
+export const create = async (params: z.infer<typeof CreateUrlDto>) => {
   const dto = CreateUrlDto.parse(params);
 
-  const url = new UrlModel(dto);
+  const session = await mongoose.startSession()
+  
+  session.startTransaction();
 
-  return url.save();
+  const counterDocument = await CounterService.incrementCount()
+  
+  counterDocument.$session(session);
+
+  const url = new UrlModel({
+    uri: dto.uri,
+    encodedUri: encodeBase62(counterDocument.count),
+  });
+
+  const urlDocument = await url.save()
+  
+  urlDocument.$session(session);
+
+  await session.commitTransaction();
+  
+  await session.endSession();
+
+  return urlDocument;
 };

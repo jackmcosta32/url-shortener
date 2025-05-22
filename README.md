@@ -53,6 +53,54 @@ Finally, access the application by opening the following URL in your browser:
 http://localhost:3000
 ```
 
+## Solution Details
+
+### Architecture
+
+```mermaid
+architecture-beta
+    service user(internet)[User]
+
+    group api(cloud)[API]
+    service db(database)[Database] in api
+    service cache(disk)[Cache] in api
+    service server(server)[Server] in api
+
+    user:R -- L:server
+    db:L -- R:server
+    cache:T -- B:server
+```
+
+### Url Shortening
+
+For a readable shortened URL we can opt to use only numbers and common characters. Using this approach we would have 26 characters from a-z, and 10 numbers from 0-9. If we mix the 26 characters with its uppercase and lowercase variants, we will have:
+
+$$
+10 + 2 \cdot 26 = 62 \text{, possible symbols to represent the encoded url}
+$$
+
+With the data retention condition of 5 years in mind, and knowing that at each day we have 1M write request per day, we have that:
+
+$$
+5_{\text{year}} \cdot 365_{\text{days/year}} \cdot (1 \cdot 10^{6})_{\text{writes/day}} = 1.825 \cdot 10^{9}_{\text{writes}}
+$$
+
+So in order to fulfill those requirements, we would need a minimum of:
+
+$$
+62^{n} \geq 1.825 \cdot 10^{9} \text{, where } n \text{ is an integer }
+$$
+
+$$
+62^{6} \approx 56.8 \cdot 10^{9}
+$$
+
+With $n = 6$, and with the assumptions mentioned earlier, the chance of collision for a new URI after 5 years would be of:
+
+$$
+1 - \frac{56.8 - 1.825}{56.8} \approx 3.3 \%
+$$
+
 ## TO-DO
 
 - [] URL Shortening: Create an endpoint that allows and stores a shortened URL;
@@ -62,3 +110,4 @@ http://localhost:3000
 ## References
 
 - [System Design School - Design URL Shortener](https://systemdesignschool.io/problems/url-shortener/solution);
+- [MarkDown Mermaid Diagram - MermaidJS](https://mermaid.js.org/syntax/architecture.html);
