@@ -18,7 +18,7 @@ WORKDIR /app
 COPY . .
 
 RUN pnpm i --frozen-lockfile
-RUN pnpm run build --filter="server"
+RUN pnpm run build --filter="backend"
 
 ##################################################################################
 # Start Server                                                                   #
@@ -34,10 +34,10 @@ WORKDIR /app
 
 COPY --from=builder /app/node_modules ./node_modules
 
-WORKDIR /app/apps/server
+WORKDIR /app/apps/backend
 
-COPY --from=builder /app/apps/server/node_modules ./node_modules
-COPY --from=builder --chown=runner:nodejs /app/apps/server/dist .
+COPY --from=builder /app/apps/backend/node_modules ./node_modules
+COPY --from=builder --chown=runner:nodejs /app/apps/backend/dist .
 
 EXPOSE 3001
 
