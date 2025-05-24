@@ -3,7 +3,7 @@ import * as HTTP_STATUS from "@/constants/status-code.constant";
 import type { NextFunction, Request, Response } from "express";
 
 export const index = async (
-  req: Request,
+  _req: Request,
   res: Response,
   _next: NextFunction
 ) => {
