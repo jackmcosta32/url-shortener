@@ -53,6 +53,27 @@ Finally, access the application by opening the following URL in your browser:
 http://localhost:3000
 ```
 
+## How to run the stress tests
+
+In order to test this application and measure its performance in real world scenarios, we decided to use [Grafana K6](https://grafana.com/docs/k6/latest/). k6 is an open-source, developer-friendly, and extensible load testing tool, that prevents performance issues and proactively improve reliability.
+
+To execute the stress tests, first start the application with the command bellow:
+```sh
+$ docker compose --profile stress-test up --build
+```
+
+Then, to generate the test reports, execute the following:
+```sh
+$ docker exec url-shortener-stress-test-application k6 run index.js
+```
+
+This command will execute the test script available at the `backend-e2e` package using the k6 instance, and log its results into the terminal. For exporting the reports in HTML format, execute the command bellow:
+```sh
+$ mkdir -p ./.reports && docker cp url-shortener-stress-test-application:/app/apps/backend-e2e/reports/stress-test-report.html ./.reports/stress-test-report.html
+```
+
+**P.S.**: Consider reading the [Grafana k6 metrics reference page](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/) for more details about the metrics and how they should be interpreted.
+
 ## Solution Details
 
 ### Architecture
@@ -113,9 +134,11 @@ Due to the reasons previously presented, we will be using MongoDB for this appli
 
 - [X] URL Shortening: Create an endpoint that stores a shortened URL;
 - [X] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
-- [] Link Analytics.
+- [ ] Link Analytics.
 
 ## References
 
 - [System Design School - Design URL Shortener](https://systemdesignschool.io/problems/url-shortener/solution);
 - [MarkDown Mermaid Diagram - MermaidJS](https://mermaid.js.org/syntax/architecture.html);
+- [Grafana K6](https://grafana.com/docs/k6/latest);
+- [Docker Health Checks](https://last9.io/blog/docker-compose-health-checks/);

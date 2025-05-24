@@ -30,6 +30,14 @@ services:
     depends_on:
       - cache-service
       - database
+    ports:
+      - '3000:${SERVER_PORT}'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 45s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
@@ -42,6 +50,29 @@ services:
       - DATABASE_HOST=${DATABASE_HOST}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+
+  stress-test-application:
+    container_name: url-shortener-stress-test-application
+    profiles:
+      - stress-test
+    depends_on:
+      server:
+        condition: service_healthy
+    ports:
+      - '5665:${STRESS_TEST_DASHBOARD_PORT}'
+    build:
+      context: .
+      dockerfile: apps/backend-e2e/Dockerfile
+    networks:
+      - application-network
+    environment:
+      - API_URL=${API_URL}
+      - K6_WEB_DASHBOARD=${STRESS_TEST_DASHBOARD}
+      - K6_WEB_DASHBOARD_HOST=${STRESS_TEST_DASHBOARD_HOST}
+      - K6_WEB_DASHBOARD_PORT=${STRESS_TEST_DASHBOARD_PORT}
+      - K6_WEB_DASHBOARD_OPEN=${STRESS_TEST_DASHBOARD_OPEN}
+      - K6_WEB_DASHBOARD_PERIOD=${STRESS_TEST_DASHBOARD_PERIOD}
+      - K6_WEB_DASHBOARD_EXPORT=${STRESS_TEST_DASHBOARD_EXPORT}
 
 networks:
   application-network:

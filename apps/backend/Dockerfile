@@ -18,12 +18,16 @@ WORKDIR /app
 COPY . .
 
 RUN pnpm i --frozen-lockfile
-RUN pnpm run build --filter="backend"
+RUN pnpm run --filter="backend" build
 
 ##################################################################################
 # Start Server                                                                   #
 ##################################################################################
 FROM base AS runner
+
+USER root
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 runner
@@ -39,7 +43,7 @@ WORKDIR /app/apps/backend
 COPY --from=builder /app/apps/backend/node_modules ./node_modules
 COPY --from=builder --chown=runner:nodejs /app/apps/backend/dist .
 
-EXPOSE 3001
+EXPOSE 3000
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
-CMD [ "node", "index.cjs" ]
+CMD [ "node", "index.js" ]
