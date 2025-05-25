@@ -9,3 +9,6 @@ dist
 
 # Test reports directory
 .reports
+
+# Config files
+.volumes

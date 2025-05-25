@@ -39,6 +39,54 @@ To execute this project, first copy the `.env.example` file and rename it to `.e
 $ cp .env.example .env
 ```
 
+This application uses mongodb replica set structure for handling transactions. Due to this we will need to a few commands before starting the application:
+
+```sh
+$ mkdir -p ./apps/backend/.volumes/mongodb
+```
+
+```sh
+$ touch ./apps/backend/.volumes/mongodb/mongodb.conf
+```
+
+And paste the following configs into the config file:
+
+```yaml
+replication:
+  replSetName: rs0
+
+security:
+  authorization: enabled
+  keyFile: /etc/mongodb-keyfile
+
+net:
+  bindIpAll: true
+  port: 27017
+  unixDomainSocket:
+    enabled: false
+
+storage:
+  dbPath: /data/db
+```
+
+Then we will need to generate an authorization key-file for the replica set. We can do this by running the command bellow:
+
+```sh
+$ openssl rand -base64 756 > ./apps/backend/.volumes/mongodb/mongodb-keyfile
+```
+
+The keyfile should only have read-only permissions, so in order to enforce this, we can run:
+
+```sh
+$ chmod 400 ./apps/backend/.volumes/mongodb/mongodb-keyfile
+```
+
+And to guarantee that the keyfile is accessible by the container user, we should execute the following command:
+
+```sh
+$ sudo chown 999:999 ./apps/backend/.volumes/mongodb/mongodb-keyfile
+```
+
 Then, if you have docker installed on your machine, build the application containers with:
 
 ```sh
@@ -46,6 +94,20 @@ $ docker compose up
 ```
 
 **P.S.**: If necessary, use the --build flag to enforce docker compose to rebuild the image
+
+We now need to manually initialize the replica set using:
+
+```sh
+$ docker exec -it url-shortener-database sh
+```
+
+```sh
+$ mongosh -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD}
+```
+
+```sh
+$ rs.initiate()
+```
 
 Finally, access the application by opening the following URL in your browser:
 

@@ -58,7 +58,7 @@ export const redirectToDecodedUri = async (
       return;
     }
 
-    res.status(HTTP_STATUS.FOUND).redirect(urlDocument.uri);
+    res.redirect(HTTP_STATUS.FOUND, urlDocument.uri);
   } catch (error) {
     res.status(HTTP_STATUS.NOT_FOUND).json(error);
   }

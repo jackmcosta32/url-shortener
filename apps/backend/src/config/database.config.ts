@@ -27,6 +27,8 @@ export const configDatabase = async () => {
       dbName: env.DATABASE_NAME,
       user: env.DATABASE_USERNAME,
       pass: env.DATABASE_PASSWORD,
+      replicaSet: env.DATABASE_REPLICA_SET,
+      directConnection: true,
     });
 
     console.log("Application has successfully connected with the database");

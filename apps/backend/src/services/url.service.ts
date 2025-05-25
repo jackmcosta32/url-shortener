@@ -17,29 +17,35 @@ export const findById = (params: z.infer<typeof FindUrlByIdDto>) => {
 
 export const create = async (params: z.infer<typeof CreateUrlDto>) => {
   const dto = CreateUrlDto.parse(params);
-
+  
   const session = await mongoose.startSession()
   
   session.startTransaction();
 
-  const counterDocument = await CounterService.incrementCount()
+  try {
+    const counterDocument = await CounterService.incrementCount(undefined, { session})
   
-  counterDocument.$session(session);
+    const url = new UrlModel({
+      uri: dto.uri,
+      encodedUri: encodeBase62(counterDocument.count),
+    });
 
-  const url = new UrlModel({
-    uri: dto.uri,
-    encodedUri: encodeBase62(counterDocument.count),
-  });
+    url.$session(session);
 
-  const urlDocument = await url.save()
-  
-  urlDocument.$session(session);
+    const urlDocument = await url.save()
 
-  await session.commitTransaction();
-  
-  await session.endSession();
+    await session.commitTransaction();
+   
+    await session.endSession();
 
-  return urlDocument;
+    return urlDocument;
+  } catch (error) {
+    await session.abortTransaction();
+    
+    await session.endSession();
+
+    throw error;
+  }
 };
 
 export const findByEncodedUri = (params: z.infer<typeof FindUrlByEncodedUriDto>) => {

@@ -8,6 +8,7 @@ const envSchema = z.object({
   DATABASE_HOST: z.string().default("localhost"),
   DATABASE_USERNAME: z.string(),
   DATABASE_PASSWORD: z.string(),
+  DATABASE_REPLICA_SET: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);

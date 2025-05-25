@@ -22,7 +22,8 @@ const API_URL = __ENV.API_URL ?? 'http://server:3000';
 export function setup() {
   const shortenUrlResponse = http.post(
     `${API_URL}/api/url`,
-    JSON.stringify({ uri: "https://www.google.com/search?q=test" }),
+    JSON.stringify({ uri: "https://example.com/" }),
+    { headers: { 'Content-Type': 'application/json' } }
   );
 
   const sut = shortenUrlResponse.json() as JSONObject;
