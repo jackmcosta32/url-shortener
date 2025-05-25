@@ -15,11 +15,15 @@ services:
     image: mongo
     restart: always
     hostname: database
+    command: ["mongod", "--config", "/etc/mongod.conf"]
     container_name: url-shortener-database
     ports:
       - "${DATABASE_PORT}:27017"
     networks:
       - application-network
+    volumes:
+      - ./apps/backend/.volumes/mongodb/mongod.conf:/etc/mongod.conf:ro
+      - ./apps/backend/.volumes/mongodb/mongodb-keyfile:/etc/mongodb-keyfile:ro
     environment:
       MONGO_INITDB_DATABASE: ${DATABASE_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
@@ -27,6 +31,8 @@ services:
 
   server:
     container_name: url-shortener-server
+    profiles:
+      - stress-test
     depends_on:
       - cache-service
       - database
