@@ -17,5 +17,8 @@ GET {{apiUrl}}/api/url HTTP/1.1
 ### GET Url by ID
 GET {{apiUrl}}/api/url/1 HTTP/1.1
 
-### REDIRECT Url by Encoded URI
+### GET Url by Encoded URI
+GET {{apiUrl}}/api/url/encoded/1 HTTP/1.1
+
+### GET Redirect Given Encoded URI
 GET {{apiUrl}}/url/1 HTTP/1.1

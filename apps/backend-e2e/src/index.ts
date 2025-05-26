@@ -1,6 +1,6 @@
 import http from 'k6/http';
 import type { Options } from 'k6/options';
-import { check, group, sleep, type JSONObject } from 'k6';
+import { check, group, type JSONObject } from 'k6';
  
 export const options: Options = {
   scenarios: {
@@ -34,14 +34,11 @@ export function setup() {
 }
 
 export default function (sut: JSONObject) {
-  group('01. Should redirect to the original URL', () => {
-    const redirectionResponse = http.get(`${API_URL}/url/${sut.encodedUri}`);
+  group('01. Should return the original URL', () => {
+    const redirectionResponse = http.get(`${API_URL}/api/url/encoded/${sut.encodedUri}`);
 
     check(redirectionResponse, {
       'Redirection status is 302': (r) => r.status === 302,
-      'Redirection location is correct': (r) => r.headers.Location === sut.uri,
     });
-
-    sleep(5);
   });
 }

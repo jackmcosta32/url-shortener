@@ -7,6 +7,7 @@ export default function (app: Application) {
   router.get("/", UrlControllers.index);
   router.post("/", UrlControllers.create);
   router.get("/:id", UrlControllers.findById);
+  router.get("/encoded/:encodedUri", UrlControllers.findByEncodedUri);
 
   app.use("/api/url", router);
 

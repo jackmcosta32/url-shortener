@@ -150,8 +150,8 @@ architecture-beta
     service server(server)[Server] in api
 
     user:R -- L:server
-    db:L -- R:server
-    cache:T -- B:server
+    server:R -- L:cache
+    cache:R -- L:db
 ```
 
 ### Url Shortening
@@ -186,15 +186,19 @@ $$
 
 ### Storing the URLs
 
-Considering the load of 1M writes per day and the number of 100M accesses, it is reasonable to expect the need for splitting our database into shards. Due to the simplicity of the data necessary to run this application using a NoSQL database might be a more straight trough solution.
+Considering the load of 1M writes per day and the number of 100M accesses, it is reasonable to expect the need for splitting our database into shards. Due to the simplicity of the data necessary to run this application, using a NoSQL database might be a more straight trough solution.
 
 Due to the reasons previously presented, we will be using MongoDB for this application. With that in mind we can now design how we are going to present the URLs. A good option would be use auto incremented values encoded in base 62 and prefixed with identifiers that could allow us to know before hand in which database shard they are stored.
 
-## Searching for an Encoded URL
+### Searching for an Encoded URL
 
-## Caching
+Although the data stored on our system is simple, due to its growth rate it's easy to predict that we could face slowness when searching for a shortened URL. To solve this problem, we can apply two simple solutions that can greatly increase the speed for querying this data, indexes and caching.
 
+#### Indexes
 
+#### Caching
+
+As our data will be frequently read but rarely updated, it makes sense to use a caching strategy like the **Read-Through Strategy**. "In this strategy, the cache is used as the primary data source. When data is requested, the cache is checked first. If the data is not in the cache, it is retrieved from the database and stored in the cache for future use" [(Binieli, 2023)](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303).
 
 ## TO-DO
 
@@ -208,3 +212,4 @@ Due to the reasons previously presented, we will be using MongoDB for this appli
 - [MarkDown Mermaid Diagram - MermaidJS](https://mermaid.js.org/syntax/architecture.html);
 - [Grafana K6](https://grafana.com/docs/k6/latest);
 - [Docker Health Checks](https://last9.io/blog/docker-compose-health-checks/);
+- [Cache Strategies - Moshe Binieli](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303);

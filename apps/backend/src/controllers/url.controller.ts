@@ -44,17 +44,13 @@ export const create = async (
   }
 };
 
-export const redirectToDecodedUri = async (
+export const findByEncodedUri = async (
   req: Request,
   res: Response,
   _next: NextFunction
-) => {  
+) => {
   try {
-    console.log("Received request to redirect for encoded URI:", req.params.encodedUri);
-
     const urlDocument = await UrlServices.findByEncodedUri({ encodedUri: req.params.encodedUri });
-
-    console.log("Redirecting to decoded URI:", urlDocument);
 
     if (!urlDocument) {
       res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Url not found" });
@@ -62,10 +58,28 @@ export const redirectToDecodedUri = async (
       return;
     }
 
+    res.status(HTTP_STATUS.FOUND).json(urlDocument);
+  } catch (error) {
+    res.status(HTTP_STATUS.BAD_REQUEST).json(error);
+  }
+};
+
+export const redirectToDecodedUri = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {  
+  try {
+    const urlDocument = await UrlServices.findByEncodedUri({ encodedUri: req.params.encodedUri });
+
+    if (!urlDocument) {
+      res.status(HTTP_STATUS.NOT_FOUND).send();
+      
+      return;
+    }
+
     res.redirect(HTTP_STATUS.FOUND, urlDocument.uri);
   } catch (error) {
-    console.error("Error redirecting to decoded URI:", error);
-
-    res.status(HTTP_STATUS.NOT_FOUND).json(error);
+    res.status(HTTP_STATUS.BAD_REQUEST).send();
   }
 }
