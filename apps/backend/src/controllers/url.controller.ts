@@ -38,6 +38,8 @@ export const create = async (
   try {
     const urlDocument = await UrlServices.create(req.body);
 
+    res.setHeader("Location", `/api/url/${urlDocument.id}`)
+
     res.status(HTTP_STATUS.CREATED).json(urlDocument);
   } catch (error) {
     res.status(HTTP_STATUS.BAD_REQUEST).json(error);
