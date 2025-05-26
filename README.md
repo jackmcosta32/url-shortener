@@ -192,6 +192,10 @@ Due to the reasons previously presented, we will be using MongoDB for this appli
 
 ## Searching for an Encoded URL
 
+## Caching
+
+
+
 ## TO-DO
 
 - [X] URL Shortening: Create an endpoint that stores a shortened URL;

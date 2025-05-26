@@ -20,8 +20,6 @@ export const configDatabase = async () => {
   try {
     const connectionUrl = getConnectionUrl();
 
-    console.log({ connectionUrl });
-
     const client = await mongoose.connect(connectionUrl, {
       authSource: "admin",
       dbName: env.DATABASE_NAME,

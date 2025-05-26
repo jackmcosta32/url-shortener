@@ -9,6 +9,10 @@ const envSchema = z.object({
   DATABASE_USERNAME: z.string(),
   DATABASE_PASSWORD: z.string(),
   DATABASE_REPLICA_SET: z.string().optional(),
+
+  CACHE_SERVICE_PORT: z.coerce.number().default(6379),
+  CACHE_SERVICE_HOST: z.string().default("localhost"),
+  CACHE_SERVICE_PASSWORD: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);

@@ -1,5 +1,6 @@
 import express from "express";
 import { env } from "@/config/env.config";
+import { configCache } from "@/config/cache.config";
 import { configRoutes } from "@/config/routes.config";
 import { configDatabase } from "@/config/database.config";
 
@@ -8,9 +9,10 @@ const main = async () => {
 
   app.use(express.json());
 
-  configRoutes(app);
-
+  await configCache();
   await configDatabase();
+
+  configRoutes(app);
 
   app.listen(env.APPLICATION_PORT, () => {
     console.log(

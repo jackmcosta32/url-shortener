@@ -1,8 +1,12 @@
 import { z } from "zod";
 import mongoose from "mongoose";
 import { UrlModel } from "@/models/url.model";
-import { encodeBase62 } from "@/utils/encoding/encodeBase62";
+import { ONE_DAY } from "@/constants/time.constant";
+import * as CacheService from "@/services/cache.service";
 import * as CounterService from "@/services/counter.service";
+import { encodeBase62 } from "@/utils/encoding/encode-base62";
+import type { IUrl } from "@/interfaces/entities/url.interface";
+import { getUrlCacheKey } from "@/utils/cache/get-url-cache-key";
 import { CreateUrlDto, FindUrlByEncodedUriDto, FindUrlByIdDto } from "@/dtos/url.dto";
 
 export const index = () => {
@@ -48,8 +52,18 @@ export const create = async (params: z.infer<typeof CreateUrlDto>) => {
   }
 };
 
-export const findByEncodedUri = (params: z.infer<typeof FindUrlByEncodedUriDto>) => {
+export const findByEncodedUri = async (params: z.infer<typeof FindUrlByEncodedUriDto>) => {
   const dto = FindUrlByEncodedUriDto.parse(params);
  
-  return UrlModel.findOne({ encodedUri: dto.encodedUri });
+  const cacheKey = getUrlCacheKey(dto.encodedUri);
+
+  const cachedEntry = await CacheService.get<IUrl>(cacheKey);
+
+  if (cachedEntry) return cachedEntry;
+
+  const urlDocument = await UrlModel.findOne({ encodedUri: dto.encodedUri });
+
+  await CacheService.set(dto.encodedUri, urlDocument, ONE_DAY);
+
+  return urlDocument;
 }

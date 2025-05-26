@@ -50,7 +50,11 @@ export const redirectToDecodedUri = async (
   _next: NextFunction
 ) => {  
   try {
+    console.log("Received request to redirect for encoded URI:", req.params.encodedUri);
+
     const urlDocument = await UrlServices.findByEncodedUri({ encodedUri: req.params.encodedUri });
+
+    console.log("Redirecting to decoded URI:", urlDocument);
 
     if (!urlDocument) {
       res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Url not found" });
@@ -60,6 +64,8 @@ export const redirectToDecodedUri = async (
 
     res.redirect(HTTP_STATUS.FOUND, urlDocument.uri);
   } catch (error) {
+    console.error("Error redirecting to decoded URI:", error);
+
     res.status(HTTP_STATUS.NOT_FOUND).json(error);
   }
 }

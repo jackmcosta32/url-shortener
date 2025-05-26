@@ -56,6 +56,8 @@ services:
       - DATABASE_HOST=${DATABASE_HOST}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - CACHE_SERVICE_HOST=${CACHE_SERVICE_HOST}
+      - CACHE_SERVICE_PASSWORD=${CACHE_SERVICE_PASSWORD}
 
   stress-test-application:
     container_name: url-shortener-stress-test-application
