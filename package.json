@@ -3,9 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prepare": "husky",
+    "lint": "eslint --fix",
     "dev": "pnpm run --parallel --filter \"./apps/**\" dev",
     "build": "pnpm run --recursive --filter \"./apps/**\" build",
     "test": "pnpm run --recursive --filter \"./apps/**\" test"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "pnpm run lint"
+    ],
+    "**/*.{md,mdx,json}": [
+      "pnpm run lint"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -19,9 +29,12 @@
     "@faker-js/faker": "^9.7.0",
     "@types/node": "^22.15.18",
     "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
     "pkgroll": "^2.12.2",
     "prettier": "^3.5.3",
     "tsx": "^4.19.3",

@@ -2,9 +2,8 @@ import js from '@eslint/js';
 import globals from 'globals';
 import markdown from '@eslint/markdown';
 import tseslint from 'typescript-eslint';
-import pluginReact from 'eslint-plugin-react';
 import { defineConfig } from 'eslint/config';
-import prettierRecommended from 'eslint-config-prettier/recommended';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
   {
@@ -18,7 +17,6 @@ export default defineConfig([
   },
   prettierRecommended,
   tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
   {
     files: ['**/*.md'],
     plugins: { markdown },
