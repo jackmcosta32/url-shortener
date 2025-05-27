@@ -1,4 +1,4 @@
-import { RESPONSE_STATUS } from "@/constants/response-status.constant";
+import { RESPONSE_STATUS } from '@/constants/response-status.constant';
 
 export interface IHttpResponse<TData = unknown> {
   data?: TData;

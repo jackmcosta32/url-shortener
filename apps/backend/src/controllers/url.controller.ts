@@ -1,11 +1,11 @@
-import * as UrlServices from "@/services/url.service";
-import * as HTTP_STATUS from "@/constants/status-code.constant";
-import type { NextFunction, Request, Response } from "express";
+import * as UrlServices from '@/services/url.service';
+import * as HTTP_STATUS from '@/constants/status-code.constant';
+import type { NextFunction, Request, Response } from 'express';
 
 export const index = async (
   _req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   try {
     const urlEntities = await UrlServices.index();
@@ -19,7 +19,7 @@ export const index = async (
 export const findById = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   try {
     const urlDocument = await UrlServices.findById({ id: req.params.id });
@@ -33,12 +33,12 @@ export const findById = async (
 export const create = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   try {
     const urlDocument = await UrlServices.create(req.body);
 
-    res.setHeader("Location", `/api/url/${urlDocument.id}`)
+    res.setHeader('Location', `/api/url/${urlDocument.id}`);
 
     res.status(HTTP_STATUS.CREATED).json(urlDocument);
   } catch (error) {
@@ -49,14 +49,16 @@ export const create = async (
 export const findByEncodedUri = async (
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   try {
-    const urlDocument = await UrlServices.findByEncodedUri({ encodedUri: req.params.encodedUri });
+    const urlDocument = await UrlServices.findByEncodedUri({
+      encodedUri: req.params.encodedUri,
+    });
 
     if (!urlDocument) {
-      res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Url not found" });
-      
+      res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Url not found' });
+
       return;
     }
 
@@ -69,14 +71,16 @@ export const findByEncodedUri = async (
 export const redirectToDecodedUri = async (
   req: Request,
   res: Response,
-  _next: NextFunction
-) => {  
+  _next: NextFunction,
+) => {
   try {
-    const urlDocument = await UrlServices.findByEncodedUri({ encodedUri: req.params.encodedUri });
+    const urlDocument = await UrlServices.findByEncodedUri({
+      encodedUri: req.params.encodedUri,
+    });
 
     if (!urlDocument) {
       res.status(HTTP_STATUS.NOT_FOUND).send();
-      
+
       return;
     }
 
@@ -84,4 +88,4 @@ export const redirectToDecodedUri = async (
   } catch (error) {
     res.status(HTTP_STATUS.BAD_REQUEST).send();
   }
-}
+};

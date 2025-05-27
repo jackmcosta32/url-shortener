@@ -120,16 +120,19 @@ http://localhost:3000
 In order to test this application and measure its performance in real world scenarios, we decided to use [Grafana K6](https://grafana.com/docs/k6/latest/). k6 is an open-source, developer-friendly, and extensible load testing tool, that prevents performance issues and proactively improve reliability.
 
 To execute the stress tests, first start the application with the command bellow:
+
 ```sh
 $ docker compose --profile stress-test up --build
 ```
 
 Then, to generate the test reports, execute the following:
+
 ```sh
 $ docker exec url-shortener-stress-test-application k6 run index.js
 ```
 
 This command will execute the test script available at the `backend-e2e` package using the k6 instance, and log its results into the terminal. For exporting the reports in HTML format, execute the command bellow:
+
 ```sh
 $ mkdir -p ./.reports && docker cp url-shortener-stress-test-application:/app/apps/backend-e2e/reports/stress-test-report.html ./.reports/stress-test-report.html
 ```
@@ -202,8 +205,8 @@ As our data will be frequently read but rarely updated, it makes sense to use a 
 
 ## TO-DO
 
-- [X] URL Shortening: Create an endpoint that stores a shortened URL;
-- [X] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
+- [x] URL Shortening: Create an endpoint that stores a shortened URL;
+- [x] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
 - [ ] Link Analytics.
 
 ## References

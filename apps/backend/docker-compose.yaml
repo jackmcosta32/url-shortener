@@ -4,7 +4,7 @@ services:
     hostname: cache-service
     container_name: url-shortener-cache-service
     ports:
-      - "${CACHE_SERVICE_PORT}:6379"
+      - '${CACHE_SERVICE_PORT}:6379'
     environment:
       REDIS_USER: ${CACHE_SERVICE_HOST}
       REDIS_PASSWORD: ${CACHE_SERVICE_PASSWORD}
@@ -13,10 +13,10 @@ services:
     image: mongo
     restart: always
     hostname: database
-    command: ["mongod", "--config", "/etc/mongod.conf"]
+    command: ['mongod', '--config', '/etc/mongod.conf']
     container_name: url-shortener-database
     ports:
-      - "${DATABASE_PORT}:27017"
+      - '${DATABASE_PORT}:27017'
     volumes:
       - ./.volumes/mongodb/mongod.conf:/etc/mongod.conf:ro
       - ./.volumes/mongodb/mongodb-keyfile:/etc/mongodb-keyfile:ro

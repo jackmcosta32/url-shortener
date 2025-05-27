@@ -1,4 +1,4 @@
 export const RESPONSE_STATUS = {
-  SUCCESS: "success",
-  ERROR: "error",
+  SUCCESS: 'success',
+  ERROR: 'error',
 };

@@ -4,7 +4,7 @@ services:
     hostname: cache-service
     container_name: url-shortener-cache-service
     ports:
-      - "${CACHE_SERVICE_PORT}:6379"
+      - '${CACHE_SERVICE_PORT}:6379'
     networks:
       - application-network
     environment:
@@ -15,10 +15,10 @@ services:
     image: mongo
     restart: always
     hostname: database
-    command: ["mongod", "--config", "/etc/mongod.conf"]
+    command: ['mongod', '--config', '/etc/mongod.conf']
     container_name: url-shortener-database
     ports:
-      - "${DATABASE_PORT}:27017"
+      - '${DATABASE_PORT}:27017'
     networks:
       - application-network
     volumes:
@@ -39,7 +39,7 @@ services:
     ports:
       - '3000:${SERVER_PORT}'
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
       interval: 45s
       timeout: 5s
       retries: 5

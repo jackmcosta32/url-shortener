@@ -1,8 +1,8 @@
-import express from "express";
-import { env } from "@/config/env.config";
-import { configCache } from "@/config/cache.config";
-import { configRoutes } from "@/config/routes.config";
-import { configDatabase } from "@/config/database.config";
+import express from 'express';
+import { env } from '@/config/env.config';
+import { configCache } from '@/config/cache.config';
+import { configRoutes } from '@/config/routes.config';
+import { configDatabase } from '@/config/database.config';
 
 const main = async () => {
   const app = express();
@@ -16,7 +16,7 @@ const main = async () => {
 
   app.listen(env.APPLICATION_PORT, () => {
     console.log(
-      `Server is running on http://localhost:${env.APPLICATION_PORT}`
+      `Server is running on http://localhost:${env.APPLICATION_PORT}`,
     );
   });
 };

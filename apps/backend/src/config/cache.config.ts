@@ -1,11 +1,11 @@
-import { inspect } from "util";
-import { env } from "./env.config"
-import { createClient, type RedisClientType } from "redis"
+import { inspect } from 'util';
+import { env } from './env.config';
+import { createClient, type RedisClientType } from 'redis';
 
 let cacheClient: RedisClientType | null = null;
 
 const getConnectionUrl = () => {
-  let connectionString = "redis://";
+  let connectionString = 'redis://';
 
   if (env.CACHE_SERVICE_HOST) {
     connectionString += `${env.CACHE_SERVICE_HOST}:`;
@@ -15,7 +15,6 @@ const getConnectionUrl = () => {
     connectionString += env.CACHE_SERVICE_PORT;
   }
 
-
   return connectionString;
 };
 
@@ -24,27 +23,29 @@ export const configCache = async () => {
     const connectionUrl = getConnectionUrl();
 
     cacheClient = await createClient({
-      url: connectionUrl
-    })
+      url: connectionUrl,
+    });
 
     await cacheClient.connect();
 
-    console.log("Application has successfully connected with the cache");
+    console.log('Application has successfully connected with the cache');
 
-    return cacheClient
+    return cacheClient;
   } catch (error) {
     console.error(
-        `Application failed to connect to cache with error:\n${inspect(error)}`
+      `Application failed to connect to cache with error:\n${inspect(error)}`,
     );
 
     throw error;
   }
-}
+};
 
 export const getCacheClient = () => {
   if (!cacheClient) {
-    throw new Error("Cache client is not initialized. Please call configCache first.");
+    throw new Error(
+      'Cache client is not initialized. Please call configCache first.',
+    );
   }
 
   return cacheClient;
-}
+};

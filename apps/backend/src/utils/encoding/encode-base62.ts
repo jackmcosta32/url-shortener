@@ -1,5 +1,5 @@
 const SYMBOLS =
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const BASE = SYMBOLS.length;
 
@@ -10,12 +10,12 @@ const BASE = SYMBOLS.length;
  */
 export const encodeBase62 = (value: number): string => {
   if (!Number.isInteger(value) || value < 0) {
-    throw new Error("Input must be a non-negative integer.");
+    throw new Error('Input must be a non-negative integer.');
   }
 
   if (value === 0) return SYMBOLS[0];
 
-  let result = "";
+  let result = '';
 
   while (value > 0) {
     const remainder = value % BASE;
@@ -25,4 +25,4 @@ export const encodeBase62 = (value: number): string => {
   }
 
   return result;
-}
+};

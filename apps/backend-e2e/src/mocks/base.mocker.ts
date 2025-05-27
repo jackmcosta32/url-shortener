@@ -1,8 +1,8 @@
 import { faker, type Faker } from '@faker-js/faker';
 
 export interface IRange {
-    max?: number;
-    min?: number;
+  max?: number;
+  min?: number;
 }
 
 export type IMockParams<Model> = Partial<{

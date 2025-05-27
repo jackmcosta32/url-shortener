@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
-import { inspect } from "node:util";
-import { env } from "@/config/env.config";
+import mongoose from 'mongoose';
+import { inspect } from 'node:util';
+import { env } from '@/config/env.config';
 
 const getConnectionUrl = () => {
-  let connectionString = "mongodb://";
+  let connectionString = 'mongodb://';
 
   if (env.DATABASE_HOST) {
     connectionString += env.DATABASE_HOST;
@@ -21,7 +21,7 @@ export const configDatabase = async () => {
     const connectionUrl = getConnectionUrl();
 
     const client = await mongoose.connect(connectionUrl, {
-      authSource: "admin",
+      authSource: 'admin',
       dbName: env.DATABASE_NAME,
       user: env.DATABASE_USERNAME,
       pass: env.DATABASE_PASSWORD,
@@ -29,12 +29,12 @@ export const configDatabase = async () => {
       directConnection: true,
     });
 
-    console.log("Application has successfully connected with the database");
+    console.log('Application has successfully connected with the database');
 
     return client;
   } catch (error) {
     console.error(
-      `Application failed to connect to database with error:\n${inspect(error)}`
+      `Application failed to connect to database with error:\n${inspect(error)}`,
     );
 
     throw error;

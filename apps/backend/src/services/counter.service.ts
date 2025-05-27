@@ -1,5 +1,5 @@
-import { CounterModel } from "@/models/counter.model";
-import { RootFilterQuery, SaveOptions } from "mongoose";
+import { CounterModel } from '@/models/counter.model';
+import { RootFilterQuery, SaveOptions } from 'mongoose';
 
 export const index = () => {
   return CounterModel.find();
@@ -15,7 +15,10 @@ const create = (options?: SaveOptions) => {
   return counter.save(options);
 };
 
-const firstOrCreate = async (filter?: RootFilterQuery<typeof CounterModel>, options?: SaveOptions) => {
+const firstOrCreate = async (
+  filter?: RootFilterQuery<typeof CounterModel>,
+  options?: SaveOptions,
+) => {
   const counter = await first(filter);
 
   if (counter) return counter;
@@ -23,7 +26,10 @@ const firstOrCreate = async (filter?: RootFilterQuery<typeof CounterModel>, opti
   return create(options);
 };
 
-export const incrementCount = async (filter?: RootFilterQuery<typeof CounterModel>, options?: SaveOptions) => {
+export const incrementCount = async (
+  filter?: RootFilterQuery<typeof CounterModel>,
+  options?: SaveOptions,
+) => {
   const counterDocument = await firstOrCreate(filter, options);
 
   counterDocument.$session(options?.session);
@@ -31,4 +37,4 @@ export const incrementCount = async (filter?: RootFilterQuery<typeof CounterMode
   counterDocument.$inc('count', 1);
 
   return counterDocument.save();
-}
+};
