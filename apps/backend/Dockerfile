@@ -43,7 +43,7 @@ WORKDIR /app/apps/backend
 COPY --from=builder /app/apps/backend/node_modules ./node_modules
 COPY --from=builder --chown=runner:nodejs /app/apps/backend/dist .
 
-EXPOSE 3000
+EXPOSE "${SERVER_PORT:-3000}"
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
 CMD [ "node", "index.js" ]

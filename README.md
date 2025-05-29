@@ -31,6 +31,11 @@ A URL Shortener is a service that takes a long URL and generates a shorter, uniq
 - Assuming 1 million write requests per day
 - Assuming each entry is about 500 bytes
 
+### Hardware Requirements
+
+- 1.5 CPUs
+- 3 GB RAM
+
 ## How to run this project
 
 To execute this project, first copy the `.env.example` file and rename it to `.env`:
@@ -111,7 +116,7 @@ $ rs.initiate()
 
 Finally, access the application by opening the following URL in your browser:
 
-```
+```sh
 http://localhost:3000
 ```
 
@@ -203,11 +208,18 @@ Although the data stored on our system is simple, due to its growth rate it's ea
 
 As our data will be frequently read but rarely updated, it makes sense to use a caching strategy like the **Read-Through Strategy**. "In this strategy, the cache is used as the primary data source. When data is requested, the cache is checked first. If the data is not in the cache, it is retrieved from the database and stored in the cache for future use" [(Binieli, 2023)](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303).
 
+### Load Balancing
+
 ## TO-DO
 
 - [x] URL Shortening: Create an endpoint that stores a shortened URL;
 - [x] URL Redirection: Create an endpoint that redirects a user given a shortened URL;
-- [ ] Link Analytics.
+- [ ] Link Analytics;
+- [x] Infra: Limit server resources;
+- [x] Infra: Add a reverse-proxy with NGINX;
+- [x] Infra: Add replicas to the server application;
+- [x] Infra: Add replicas to the database replica set;
+- [ ] Infra: Add logging with open telemetry.
 
 ## References
 
@@ -216,3 +228,6 @@ As our data will be frequently read but rarely updated, it makes sense to use a 
 - [Grafana K6](https://grafana.com/docs/k6/latest);
 - [Docker Health Checks](https://last9.io/blog/docker-compose-health-checks/);
 - [Cache Strategies - Moshe Binieli](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303);
+- [HTTP Load Balancing - NGINX](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/);
+- [HTTP Reverse Proxy - NGINX](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/);
+- [Discussing Databases - Fabio AKita](https://www.youtube.com/watch?v=Bfm3Ms2cTg0).

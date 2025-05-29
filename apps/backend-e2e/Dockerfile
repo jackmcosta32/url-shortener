@@ -34,7 +34,7 @@ WORKDIR /app/apps/backend-e2e
 COPY --from=builder /app/apps/backend-e2e/node_modules ./node_modules
 COPY --from=builder /app/apps/backend-e2e/dist .
 
-EXPOSE 5665
+EXPOSE "${SERVER_PORT:-5665}"
 
 RUN mkdir ./reports
 

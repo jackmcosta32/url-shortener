@@ -11,4 +11,4 @@ dist
 .reports
 
 # Config files
-.volumes
+mongodb-keyfile
